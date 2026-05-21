@@ -5,7 +5,6 @@ import {
   BookOpenText,
   ChevronRight,
   CircleDot,
-  MousePointer2,
 } from "lucide-react"
 import { motion, useReducedMotion } from "motion/react"
 import Image from "next/image"
@@ -14,38 +13,43 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 
-const navItems = ["Noticias", "Acerca del manga", "Merch", "Sketch"]
+const navItems = [
+  { label: "Noticias", href: "#noticias" },
+  { label: "Acerca del manga", href: "#obra" },
+  { label: "Protagonistas", href: "#protagonistas" },
+  { label: "Capítulos", href: "/chapters" },
+]
 
 const newsItems = [
   {
     title: "Diario de producción",
-    text: "Espacio para notas del autor, avances de páginas, decisiones visuales y cambios de fecha.",
+    text: "Notas del autor, avances de páginas y decisiones visuales alrededor del primer arco.",
+    image: "/anomalyer-cover.jpg",
   },
   {
     title: "Estado del capítulo 01",
-    text: "Bloque para comunicar si el capítulo está en guion, storyboard, tinta o publicación.",
+    text: "El capítulo entra en una fase de composición: ritmo, silencios y contraste de tinta.",
+    image: "/anomalyer-mercedes.jpg",
   },
   {
     title: "Archivo visual",
-    text: "Lugar para bocetos, moodboards, pruebas de portada y material extra del universo.",
+    text: "Bocetos, retratos, portada, moodboards y piezas para ampliar el universo de la obra.",
+    image: "/anomalyer-pierre.jpg",
   },
 ]
 
-const glimpseCards = [
+const worldNotes = [
   {
     title: "La ciudad",
-    text: "Vistazo sobre el lugar donde las anomalías se vuelven rutina: calles estrechas, luz cansada y objetos con memoria.",
-    type: "wide",
+    text: "Calles estrechas, luz cansada y objetos que guardan memoria. Un lugar donde la anomalía parece una costumbre.",
   },
   {
     title: "Rituales",
-    text: "Cards pequeñas para explicar costumbres, símbolos, máscaras o reglas del mundo sin revelar demasiado.",
-    type: "small",
+    text: "Símbolos, gestos y pequeñas reglas del mundo aparecen como pistas antes que como explicación.",
   },
   {
     title: "Archivo",
-    text: "Entrada para piezas coleccionables: expedientes, cartas, recortes o pistas del manga.",
-    type: "small",
+    text: "Cartas, recortes, expedientes y fragmentos visuales pueden crecer como contenido extra.",
   },
 ]
 
@@ -53,12 +57,16 @@ const protagonists = [
   {
     name: "Mercedes",
     role: "Observa la anomalía antes de entenderla.",
-    text: "Ficha lateral como en el boceto: puede arrancar casi vacía y revelar biografía, conflicto o frase clave al pasar el mouse.",
+    text: "La ficha puede revelar biografía, conflicto o frase clave al pasar el mouse, sin perder la tensión editorial.",
+    image: "/anomalyer-mercedes.jpg",
+    imagePosition: "object-[52%_34%]",
   },
   {
     name: "Pierre",
-    role: "Aparece cuando la grieta ya esta abierta.",
-    text: "Segunda ficha lateral para balancear la escena central de protagonistas y dejar espacio a ilustración final.",
+    role: "Aparece cuando la grieta ya está abierta.",
+    text: "Su presencia balancea la portada: una figura más quieta, de lectura lateral y pasado incierto.",
+    image: "/anomalyer-pierre.jpg",
+    imagePosition: "object-[48%_34%]",
   },
 ]
 
@@ -86,7 +94,85 @@ function Reveal({
   )
 }
 
-function SketchCard({
+function Header() {
+  return (
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-primary/18 bg-background/78 backdrop-blur-xl">
+      <div className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <Link
+          href="/"
+          className="font-heading text-2xl leading-none text-foreground transition-colors hover:text-primary"
+        >
+          AnomalyeR
+        </Link>
+        <nav className="flex min-w-0 items-center gap-1 overflow-x-auto text-xs text-muted-foreground">
+          {navItems.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className="shrink-0 px-3 py-2 uppercase tracking-[0.08em] transition-colors hover:text-foreground"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+      </div>
+    </header>
+  )
+}
+
+function ProgressDial() {
+  return (
+    <div className="grid justify-items-center gap-4 border border-primary/24 bg-card/70 px-5 py-7 text-center backdrop-blur-sm">
+      <p className="max-w-32 text-xs font-semibold uppercase leading-4 text-foreground/78">
+        Progreso de autoría
+      </p>
+      <div className="relative grid size-32 place-items-center rounded-full border border-primary/30 bg-background/50">
+        <div className="absolute inset-4 rounded-full border-[12px] border-primary/22 border-r-primary border-t-primary" />
+        <span className="font-heading text-5xl text-primary">65%</span>
+      </div>
+      <Progress
+        value={65}
+        aria-label="Progreso de autoría 65%"
+        className="h-1.5 bg-foreground/10 [&_[data-slot=progress-indicator]]:bg-primary"
+      />
+    </div>
+  )
+}
+
+function NewsCard({
+  title,
+  text,
+  image,
+  delay,
+}: {
+  title: string
+  text: string
+  image: string
+  delay: number
+}) {
+  return (
+    <Reveal delay={delay}>
+      <article className="group grid min-h-[360px] overflow-hidden border border-primary/18 bg-card/72 transition-colors hover:border-primary/48">
+        <div className="relative min-h-44 overflow-hidden border-b border-primary/16">
+          <Image
+            src={image}
+            alt=""
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            className="object-cover opacity-82 grayscale transition duration-500 group-hover:scale-[1.04] group-hover:opacity-100"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_35%,oklch(0%_0_0/0.72)_100%)]" />
+        </div>
+        <div className="p-5">
+          <h3 className="font-heading text-3xl leading-none">{title}</h3>
+          <p className="mt-4 text-sm leading-6 text-muted-foreground">{text}</p>
+        </div>
+      </article>
+    </Reveal>
+  )
+}
+
+function WorldCard({
   title,
   text,
   className = "",
@@ -99,16 +185,16 @@ function SketchCard({
 
   return (
     <motion.article
-      className={`group relative min-h-36 overflow-hidden border border-foreground/18 bg-background/55 p-4 transition-colors hover:border-primary/55 hover:bg-card ${className}`}
-      whileHover={reduceMotion ? undefined : { scale: 1.025 }}
+      className={`group relative overflow-hidden border border-primary/18 bg-background/48 p-5 transition-colors hover:border-primary/58 hover:bg-card/82 ${className}`}
+      whileHover={reduceMotion ? undefined : { scale: 1.018 }}
       transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="absolute inset-3 border border-foreground/8" />
+      <div className="pointer-events-none absolute inset-4 border border-foreground/8" />
       <div className="relative z-10">
-        <p className="font-heading text-2xl leading-none text-foreground">
+        <p className="font-heading text-3xl leading-none text-foreground">
           {title}
         </p>
-        <p className="mt-3 max-h-0 text-sm leading-6 text-muted-foreground opacity-0 transition-all duration-300 group-hover:max-h-40 group-hover:opacity-100">
+        <p className="mt-4 max-h-0 text-sm leading-6 text-muted-foreground opacity-0 transition-all duration-300 group-hover:max-h-40 group-hover:opacity-100">
           {text}
         </p>
       </div>
@@ -116,237 +202,243 @@ function SketchCard({
   )
 }
 
-function ProgressDial() {
+function ProtagonistCard({
+  name,
+  role,
+  text,
+  image,
+  imagePosition,
+  delay,
+}: {
+  name: string
+  role: string
+  text: string
+  image: string
+  imagePosition: string
+  delay: number
+}) {
   return (
-    <div className="grid justify-items-center gap-3 border border-foreground/18 bg-card/55 px-5 py-6 text-center">
-      <p className="max-w-28 text-xs font-semibold uppercase leading-4 text-foreground/75">
-        Progreso de autoría
-      </p>
-      <div className="relative grid size-28 place-items-center rounded-full border border-primary/30 bg-background/45">
-        <div className="absolute inset-3 rounded-full border-[10px] border-primary/25 border-r-primary border-t-primary" />
-        <span className="font-heading text-4xl text-primary">65%</span>
-      </div>
-      <Progress
-        value={65}
-        aria-label="Progreso de autoría 65%"
-        className="h-1.5 bg-foreground/10 [&_[data-slot=progress-indicator]]:bg-primary"
-      />
-    </div>
-  )
-}
-
-function FigurePair() {
-  return (
-    <div className="relative flex min-h-80 items-end justify-center overflow-hidden border border-primary/24 bg-[radial-gradient(circle_at_50%_30%,oklch(48.6%_0.017_107/0.35),oklch(21.5%_0.002_18)_68%)] p-6">
-      <div className="absolute left-1/2 top-8 h-[82%] w-px -translate-x-1/2 bg-primary/20" />
-      <div className="absolute inset-x-8 bottom-7 h-px bg-foreground/12" />
-      <div className="relative h-64 w-36 -translate-x-6">
-        <div className="absolute left-12 top-0 size-16 rounded-full bg-foreground/18" />
-        <div className="absolute bottom-0 left-4 h-52 w-24 rounded-t-full bg-foreground/12" />
-        <div className="absolute bottom-20 left-0 h-12 w-28 -rotate-12 border border-foreground/18 bg-background/55" />
-      </div>
-      <div className="relative h-64 w-36 translate-x-4">
-        <div className="absolute right-12 top-0 size-16 rounded-full bg-primary/18" />
-        <div className="absolute bottom-0 right-4 h-52 w-24 rounded-t-full bg-primary/12" />
-        <div className="absolute bottom-20 right-0 h-12 w-28 rotate-12 border border-primary/18 bg-background/55" />
-      </div>
-    </div>
+    <Reveal delay={delay}>
+      <article className="group grid overflow-hidden border border-primary/18 bg-card/68 transition-colors hover:border-primary/52 lg:grid-cols-[minmax(0,0.95fr)_minmax(280px,0.8fr)]">
+        <div className="relative min-h-[420px] overflow-hidden">
+          <Image
+            src={image}
+            alt={`Retrato de ${name}`}
+            fill
+            sizes="(max-width: 1024px) 100vw, 42vw"
+            className={`grayscale ${imagePosition} object-cover transition duration-700 group-hover:scale-[1.035]`}
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_52%,oklch(0%_0_0/0.82)_100%)]" />
+        </div>
+        <div className="flex min-h-80 flex-col justify-end p-6 sm:p-8">
+          <p className="mb-3 text-xs uppercase tracking-[0.18em] text-primary">
+            Protagonista
+          </p>
+          <h3 className="font-heading text-5xl leading-none sm:text-6xl">
+            {name}
+          </h3>
+          <p className="mt-5 text-base leading-7 text-foreground/82">{role}</p>
+          <p className="mt-4 text-sm leading-7 text-muted-foreground">{text}</p>
+        </div>
+      </article>
+    </Reveal>
   )
 }
 
 export function SketchOneProposal() {
   return (
-    <div className="mx-auto w-full max-w-[1180px] px-4 py-5 sm:px-6 lg:py-8">
-      <div className="mb-3 flex justify-end pr-2 text-[10px] uppercase text-muted-foreground">
-        Web navegador
-      </div>
-      <div className="overflow-hidden border border-primary/24 bg-background/90 shadow-[0_28px_120px_oklch(0%_0_0/0.72)] backdrop-blur">
-        <header className="flex min-h-11 items-center justify-between border-b border-primary/20 px-3 text-xs text-muted-foreground sm:px-5">
-          <nav className="flex min-w-0 items-center gap-1 overflow-x-auto">
-            {navItems.map((item) => (
-              <Link
-                key={item}
-                href={item === "Noticias" ? "#noticias" : "#obra"}
-                className="shrink-0 border-r border-primary/16 px-3 py-3 transition-colors hover:bg-primary/8 hover:text-foreground"
-              >
-                {item}
-              </Link>
-            ))}
-          </nav>
-          <div className="hidden items-center gap-4 pl-4 sm:flex">
-            <Link href="/chapters" className="hover:text-foreground">
-              Archivo
-            </Link>
-            <Link href="#protagonistas" className="hover:text-foreground">
-              Autor
-            </Link>
-          </div>
-        </header>
+    <div className="min-h-screen bg-background text-foreground">
+      <Header />
 
-        <section className="sketch-hero-grid relative min-h-[360px] overflow-hidden border-b border-primary/20 px-5 py-9 text-center sm:min-h-[410px] sm:px-10">
-          <Image
-            src="/anomalyer-key-art.webp"
-            alt="Imagen promocional temporal de AnomalyeR"
-            fill
-            priority
-            sizes="(max-width: 1180px) 100vw, 1180px"
-            className="object-cover opacity-22"
-          />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,transparent,oklch(21.5%_0.002_18/0.72)_62%,oklch(0%_0_0/0.92)_100%),linear-gradient(90deg,oklch(0%_0_0/0.78),transparent_28%,transparent_72%,oklch(0%_0_0/0.78))]" />
-          <div className="absolute left-0 top-0 hidden h-full w-48 bg-[repeating-linear-gradient(135deg,oklch(86.8%_0.066_78/0.16)_0_1px,transparent_1px_13px)] opacity-55 sm:block" />
-          <div className="absolute right-0 top-0 hidden h-full w-48 bg-[repeating-linear-gradient(45deg,oklch(86.8%_0.066_78/0.16)_0_1px,transparent_1px_13px)] opacity-55 sm:block" />
-          <Reveal className="relative z-10 mx-auto flex min-h-[280px] max-w-3xl flex-col items-center justify-center gap-5 sm:min-h-[330px]">
-            <p className="text-xs uppercase text-muted-foreground">
-              Imagen promocional
-            </p>
-            <h1 className="font-heading text-6xl font-semibold leading-none sm:text-8xl">
+      <section className="paper-grain relative min-h-[76svh] overflow-hidden border-b border-primary/20 pt-14">
+        <Image
+          src="/anomalyer-cover.jpg"
+          alt="Portada de AnomalyeR"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[50%_30%] opacity-72 grayscale"
+        />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_34%,transparent_0%,oklch(0%_0_0/0.48)_42%,oklch(0%_0_0/0.96)_92%),linear-gradient(90deg,oklch(0%_0_0/0.92)_0%,oklch(0%_0_0/0.62)_34%,transparent_58%,oklch(0%_0_0/0.74)_100%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-44 bg-[linear-gradient(180deg,transparent,oklch(0%_0_0)_86%)]" />
+
+        <div className="relative z-10 mx-auto flex min-h-[calc(76svh-56px)] w-full max-w-7xl items-end px-5 pb-8 sm:px-8 sm:pb-12">
+          <Reveal className="max-w-3xl">
+            <h1 className="font-heading text-6xl font-semibold leading-none text-foreground sm:text-8xl lg:text-9xl">
               AnomalyeR
             </h1>
-            <p className="max-w-lg text-sm leading-6 text-muted-foreground sm:text-base">
-              Portada basada en el boceto: logo centrado, ilustración
-              atmosférica y CTA principal como primer punto de acción.
+            <p className="mt-6 max-w-2xl text-base leading-8 text-foreground/82 sm:text-xl sm:leading-9">
+              Una obra independiente sobre cuerpos que recuerdan lo imposible y
+              una ciudad que aprendió a rezar en silencio.
             </p>
-            <Button
-              asChild
-              size="lg"
-              className="h-12 min-w-56 rounded-none bg-primary px-8 text-primary-foreground hover:bg-primary/90"
-            >
-              <Link href="/chapters/fragmento-00">
-                <BookOpenText data-icon="inline-start" />
-                Leer ahora
-                <ArrowUpRight data-icon="inline-end" />
-              </Link>
-            </Button>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Button
+                asChild
+                size="lg"
+                className="h-12 rounded-none bg-primary px-8 text-primary-foreground hover:bg-primary/90"
+              >
+                <Link href="/chapters/fragmento-00">
+                  <BookOpenText data-icon="inline-start" />
+                  Leer ahora
+                  <ArrowUpRight data-icon="inline-end" />
+                </Link>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="h-12 rounded-none border-primary/30 bg-background/15 px-8 text-foreground backdrop-blur-md hover:bg-primary/10"
+              >
+                <Link href="#obra">Entrar al universo</Link>
+              </Button>
+            </div>
           </Reveal>
-        </section>
+        </div>
+      </section>
 
-        <section
-          id="noticias"
-          className="grid gap-5 border-b border-primary/20 px-5 py-8 sm:px-8 lg:grid-cols-[180px_1fr]"
-        >
+      <section
+        id="noticias"
+        className="relative border-b border-primary/18 bg-background py-14 sm:py-18"
+      >
+        <div className="mx-auto grid w-full max-w-7xl gap-8 px-5 sm:px-8 lg:grid-cols-[220px_1fr]">
           <Reveal>
             <ProgressDial />
           </Reveal>
-          <Reveal delay={0.08}>
-            <div>
-              <h2 className="mb-4 font-heading text-3xl leading-none">
-                Ultimas noticias
-              </h2>
-              <div className="grid gap-3 sm:grid-cols-3">
-                {newsItems.map((item) => (
-                  <article
-                    key={item.title}
-                    className="min-h-40 border border-primary/20 bg-card p-4 transition-colors hover:border-primary/45"
-                  >
-                    <div className="sketch-placeholder mb-5 h-14 border border-primary/16" />
-                    <h3 className="font-heading text-2xl leading-none">
-                      {item.title}
-                    </h3>
-                    <p className="mt-3 text-xs leading-5 text-muted-foreground">
-                      {item.text}
-                    </p>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </Reveal>
-        </section>
-
-        <section id="obra" className="border-b border-primary/20 px-5 py-10 sm:px-8">
-          <Reveal className="mx-auto max-w-4xl text-center">
-            <p className="mb-4 text-xs uppercase text-primary/85">
-              &lt;&lt; Conviértete en una Anomaly
-            </p>
-            <h2 className="font-heading text-4xl leading-tight sm:text-6xl">
-              Contexto sobre la obra
-            </h2>
-            <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-muted-foreground">
-              Bloque pensado como el centro del boceto: una explicación breve
-              del universo, con espacio para que el autor cambie copy,
-              capturas, panels o arte final.
-            </p>
-          </Reveal>
-
-          <div className="mt-8 grid gap-5 lg:grid-cols-[1fr_260px]">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <SketchCard
-                title={glimpseCards[0].title}
-                text={glimpseCards[0].text}
-                className="sm:col-span-2 min-h-56"
-              />
-              <SketchCard title={glimpseCards[1].title} text={glimpseCards[1].text} />
-              <SketchCard title={glimpseCards[2].title} text={glimpseCards[2].text} />
-            </div>
-            <aside className="border-l border-foreground/16 pl-5">
-              <p className="font-heading text-3xl leading-none">
-                Vistazos sobre la obra
-              </p>
-              <p className="mt-4 text-sm leading-6 text-muted-foreground">
-                Estas cards pueden estar vacías en esta propuesta o llenarse
-                con mundo, escenas, páginas del manga, mapas, notas del autor o
-                previews.
-              </p>
-              <div className="mt-6 flex items-start gap-3 border border-primary/22 bg-primary/8 p-3 text-xs leading-5 text-primary">
-                <MousePointer2 aria-hidden="true" />
-                Al posicionar el mouse, la card se agranda y surge su texto.
-              </div>
-            </aside>
-          </div>
-        </section>
-
-        <section
-          id="protagonistas"
-          className="border-b border-primary/20 px-5 py-10 sm:px-8"
-        >
-          <Reveal>
-            <h2 className="mb-7 font-heading text-5xl leading-none">
-              Protagonistas
-            </h2>
-          </Reveal>
-          <div className="grid gap-4 lg:grid-cols-[260px_1fr_260px] lg:items-stretch">
-            <SketchCard
-              title={protagonists[0].name}
-              text={`${protagonists[0].role} ${protagonists[0].text}`}
-              className="min-h-64"
-            />
-            <Reveal delay={0.08}>
-              <FigurePair />
-            </Reveal>
-            <SketchCard
-              title={protagonists[1].name}
-              text={`${protagonists[1].role} ${protagonists[1].text}`}
-              className="min-h-64"
-            />
-          </div>
-        </section>
-
-        <footer className="grid gap-5 px-5 py-7 text-sm text-muted-foreground sm:grid-cols-[1fr_auto] sm:px-8">
           <div>
-            <p className="font-heading text-2xl text-foreground">AnomalyeR</p>
+            <Reveal>
+              <div className="mb-7 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <h2 className="font-heading text-5xl leading-none">
+                  Últimas noticias
+                </h2>
+                <Link
+                  href="/chapters"
+                  className="inline-flex items-center gap-2 text-sm text-primary transition-colors hover:text-foreground"
+                >
+                  Ver base de capítulos
+                  <ChevronRight aria-hidden="true" size={16} />
+                </Link>
+              </div>
+            </Reveal>
+            <div className="grid gap-4 md:grid-cols-3">
+              {newsItems.map((item, index) => (
+                <NewsCard
+                  key={item.title}
+                  title={item.title}
+                  text={item.text}
+                  image={item.image}
+                  delay={index * 0.06}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="obra"
+        className="relative overflow-hidden border-b border-primary/18 py-16 sm:py-24"
+      >
+        <div className="absolute inset-y-0 right-0 hidden w-[42vw] opacity-18 lg:block">
+          <Image
+            src="/anomalyer-mercedes.jpg"
+            alt=""
+            fill
+            sizes="42vw"
+            className="object-cover object-[45%_40%] grayscale"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,oklch(0%_0_0)_0%,transparent_42%,oklch(0%_0_0/0.92)_100%)]" />
+        </div>
+
+        <div className="relative z-10 mx-auto grid w-full max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[0.78fr_1fr] lg:items-start">
+          <Reveal>
+            <div className="lg:sticky lg:top-24">
+              <p className="mb-4 text-xs uppercase tracking-[0.22em] text-primary">
+                Conviértete en una Anomaly
+              </p>
+              <h2 className="font-heading text-5xl leading-tight sm:text-7xl">
+                Contexto sobre la obra
+              </h2>
+              <p className="mt-6 max-w-xl text-base leading-8 text-muted-foreground">
+                AnomalyeR se mueve entre duelo, memoria y señales imposibles.
+                Esta sección abre espacio para que el autor publique
+                descripción, escenas, notas y pistas sin convertir la obra en
+                un blog genérico.
+              </p>
+              <div className="mt-8 flex items-start gap-3 border border-primary/22 bg-primary/8 p-4 text-sm leading-6 text-primary">
+                <CircleDot aria-hidden="true" className="mt-1 shrink-0" />
+                Un archivo vivo para expandir mundo, personajes y fragmentos
+                visuales antes de que cada capítulo llegue a publicación.
+              </div>
+            </div>
+          </Reveal>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <WorldCard
+              title={worldNotes[0].title}
+              text={worldNotes[0].text}
+              className="min-h-64 sm:col-span-2"
+            />
+            <WorldCard
+              title={worldNotes[1].title}
+              text={worldNotes[1].text}
+              className="min-h-52"
+            />
+            <WorldCard
+              title={worldNotes[2].title}
+              text={worldNotes[2].text}
+              className="min-h-52"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="protagonistas"
+        className="relative border-b border-primary/18 py-16 sm:py-24"
+      >
+        <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
+          <Reveal>
+            <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <h2 className="font-heading text-6xl leading-none sm:text-7xl">
+                Protagonistas
+              </h2>
+              <p className="max-w-sm text-sm leading-7 text-muted-foreground">
+                Los retratos pueden crecer como fichas completas cuando el
+                autor defina biografías, capítulos y arte final.
+              </p>
+            </div>
+          </Reveal>
+          <div className="grid gap-5">
+            {protagonists.map((character, index) => (
+              <ProtagonistCard
+                key={character.name}
+                name={character.name}
+                role={character.role}
+                text={character.text}
+                image={character.image}
+                imagePosition={character.imagePosition}
+                delay={index * 0.08}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <footer className="px-5 py-10 sm:px-8">
+        <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 border-t border-primary/18 pt-8 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="font-heading text-3xl text-foreground">AnomalyeR</p>
             <p className="mt-2 max-w-xl leading-6">
-              Sketch 1 Proposal branch: flujo casi identico al boceto para
-              comparar contra otras ramas antes de elegir main.
+              Web oficial para publicar portada, noticias, contexto, retratos y
+              capítulos de una obra independiente en crecimiento.
             </p>
           </div>
-          <Button
-            asChild
-            variant="outline"
-            className="rounded-none border-foreground/20 bg-transparent"
-          >
-            <Link href="/chapters">
-              Base de capítulos
-              <ChevronRight data-icon="inline-end" />
-            </Link>
-          </Button>
-        </footer>
-      </div>
-      <div className="mx-auto mt-4 flex max-w-[1180px] items-center justify-between text-xs text-muted-foreground">
-        <span className="flex items-center gap-2">
-          <CircleDot aria-hidden="true" />
-          Proposal 1 / Sketch 1
-        </span>
-        <span>branch: sketch-1-proposal</span>
-      </div>
+          <span className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-primary">
+            <CircleDot aria-hidden="true" size={14} />
+            Manga independiente
+          </span>
+        </div>
+      </footer>
     </div>
   )
 }

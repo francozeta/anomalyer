@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     title: "AnomalyeR",
     description:
       "Manga independiente, noticias de autor, progreso de obra y futuros capítulos web.",
-    images: ["/anomalyer-og.jpg"],
+    images: ["/anomalyer-cover.jpg"],
   },
 }
 

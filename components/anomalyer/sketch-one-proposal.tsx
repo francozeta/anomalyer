@@ -264,8 +264,16 @@ export function SketchOneProposal() {
 
         <div className="relative z-10 mx-auto flex min-h-[calc(76svh-56px)] w-full max-w-7xl items-end px-5 pb-8 sm:px-8 sm:pb-12">
           <Reveal className="max-w-3xl">
-            <h1 className="font-heading text-6xl font-semibold leading-none text-foreground sm:text-8xl lg:text-9xl">
-              AnomalyeR
+            <h1 className="leading-none">
+              <span className="sr-only">AnomalyeR</span>
+              <Image
+                src="/anomalyer-logo.png"
+                alt=""
+                width={956}
+                height={261}
+                priority
+                className="h-auto w-[clamp(18rem,58vw,48rem)] max-w-full drop-shadow-[0_18px_42px_oklch(0%_0_0/0.8)]"
+              />
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-8 text-foreground/82 sm:text-xl sm:leading-9">
               Una obra independiente sobre cuerpos que recuerdan lo imposible y

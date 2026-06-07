@@ -3,6 +3,7 @@
 import {
   ArrowUpRight,
   BookOpenText,
+  ChevronDown,
   ChevronRight,
   CircleDot,
 } from "lucide-react"
@@ -18,6 +19,17 @@ const navItems = [
   { label: "Acerca del manga", href: "#obra" },
   { label: "Protagonistas", href: "#protagonistas" },
   { label: "Capítulos", href: "/chapters" },
+]
+
+const socialItems = [
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/paintress.anomalyer/",
+  },
+  {
+    label: "TikTok",
+    href: "https://www.tiktok.com/@paintress.anomalyer",
+  },
 ]
 
 const newsItems = [
@@ -106,16 +118,49 @@ function Header() {
         >
           AnomalyeR
         </Link>
-        <nav className="flex min-w-0 items-center gap-1 overflow-x-auto text-xs text-muted-foreground">
-          {navItems.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className="shrink-0 px-3 py-2 uppercase tracking-[0.08em] transition-colors hover:text-foreground"
+        <nav className="flex min-w-0 items-center gap-1 overflow-visible text-xs text-muted-foreground">
+          <div className="flex min-w-0 items-center gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {navItems.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                className="shrink-0 px-3 py-2 uppercase tracking-[0.08em] transition-colors hover:text-foreground"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+          <div className="group relative shrink-0">
+            <button
+              type="button"
+              className="inline-flex items-center gap-1 px-3 py-2 uppercase tracking-[0.08em] transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary/60"
+              aria-haspopup="menu"
             >
-              {item.label}
-            </Link>
-          ))}
+              Socials
+              <ChevronDown
+                aria-hidden="true"
+                size={14}
+                className="transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180"
+              />
+            </button>
+            <div
+              role="menu"
+              className="pointer-events-none absolute right-0 top-full z-50 mt-2 w-40 translate-y-1 border border-primary/20 bg-background/94 py-2 opacity-0 shadow-[0_18px_42px_oklch(0%_0_0/0.55)] backdrop-blur-xl transition duration-200 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-y-0 group-focus-within:opacity-100"
+            >
+              {socialItems.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  role="menuitem"
+                  className="block px-4 py-2.5 font-heading text-xl leading-none text-primary/82 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:text-foreground"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          </div>
         </nav>
       </div>
     </header>

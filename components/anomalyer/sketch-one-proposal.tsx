@@ -1,18 +1,17 @@
 "use client"
 
 import {
-  ArrowUpRight,
-  BookOpenText,
   ChevronDown,
   ChevronRight,
   CircleDot,
 } from "lucide-react"
+import { Warp } from "@paper-design/shaders-react"
 import { motion, useReducedMotion } from "motion/react"
 import Image from "next/image"
 import Link from "next/link"
 
-import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
+import { VisitorCounter } from "@/components/anomalyer/visitor-counter"
 
 const navItems = [
   { label: "Noticias", href: "#noticias" },
@@ -393,55 +392,80 @@ export function SketchOneProposal() {
     <div className="min-h-screen bg-background text-foreground">
       <Header />
 
-      <section className="paper-grain relative min-h-[76svh] overflow-hidden border-b border-primary/20 pt-14">
-        <Image
-          src="/anomalyer-cover.jpg"
-          alt="Portada de AnomalyeR"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-[50%_30%] opacity-72 grayscale"
-        />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_34%,transparent_0%,oklch(0%_0_0/0.48)_42%,oklch(0%_0_0/0.96)_92%),linear-gradient(90deg,oklch(0%_0_0/0.92)_0%,oklch(0%_0_0/0.62)_34%,transparent_58%,oklch(0%_0_0/0.74)_100%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-44 bg-[linear-gradient(180deg,transparent,oklch(0%_0_0)_86%)]" />
+      <section className="relative min-h-[calc(100svh-56px)] overflow-hidden border-b border-primary/20 bg-black pt-14">
+        <div className="absolute inset-0">
+          <Warp
+            className="absolute inset-0"
+            width="100%"
+            height="100%"
+            colors={["#050505", "#fff8df", "#0a0907", "#f3d99a", "#ffffff"]}
+            proportion={0.34}
+            softness={0.02}
+            distortion={0.92}
+            swirl={1}
+            swirlIterations={20}
+            shape="edge"
+            shapeScale={0.72}
+            speed={0.58}
+            scale={1.95}
+            rotation={18}
+            fit="cover"
+            maxPixelCount={1400000}
+            style={{ height: "100%", width: "100%" }}
+          />
+          <Warp
+            className="absolute inset-0 opacity-90 mix-blend-screen"
+            width="100%"
+            height="100%"
+            colors={["#000000", "#fff6d8", "#1a1308", "#ffffff"]}
+            proportion={0.14}
+            softness={0}
+            distortion={0.96}
+            swirl={0.86}
+            swirlIterations={20}
+            shape="stripes"
+            shapeScale={0.88}
+            speed={0.72}
+            scale={1.18}
+            rotation={34}
+            fit="cover"
+            maxPixelCount={1000000}
+            style={{ height: "100%", width: "100%" }}
+          />
+        </div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_48%,oklch(97%_0.035_92/0.42)_0_30%,transparent_48%,oklch(0%_0_0/0.48)_100%)]" />
 
-        <div className="relative z-10 mx-auto flex min-h-[calc(76svh-56px)] w-full max-w-7xl items-end px-5 pb-8 sm:px-8 sm:pb-12">
-          <Reveal className="max-w-3xl">
-            <h1 className="leading-none">
-              <span className="sr-only">AnomalyeR</span>
-              <Image
-                src="/anomalyer-logo.png"
-                alt=""
-                width={956}
-                height={261}
-                priority
-                className="h-auto w-[clamp(18rem,58vw,48rem)] max-w-full drop-shadow-[0_18px_42px_oklch(0%_0_0/0.8)]"
-              />
-            </h1>
-            <p className="mt-6 max-w-2xl text-base leading-8 text-foreground/82 sm:text-xl sm:leading-9">
-              Una obra independiente sobre cuerpos que recuerdan lo imposible y
-              una ciudad que aprendió a rezar en silencio.
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button
-                asChild
-                size="lg"
-                className="h-12 rounded-none bg-primary px-8 text-primary-foreground hover:bg-primary/90"
+        <div className="relative z-10 mx-auto flex min-h-[calc(100svh-56px)] w-full max-w-7xl items-center justify-center px-5 sm:px-8">
+          <Reveal className="relative flex w-full justify-center">
+            <h1 className="sr-only">AnomalyeR</h1>
+            <div className="relative aspect-square w-[min(92vw,72svh,57rem)]">
+              <div className="absolute inset-[-1%] rounded-full bg-white/45 blur-2xl" />
+              <div className="absolute inset-[2.5%] rounded-full bg-[radial-gradient(circle_at_50%_45%,oklch(100%_0_0)_0%,oklch(96%_0.02_92)_58%,oklch(83%_0.035_88)_100%)] shadow-[0_0_42px_oklch(100%_0_0/0.95),0_0_118px_oklch(91%_0.05_92/0.62),0_0_220px_oklch(0%_0_0/0.72)]" />
+              <div className="absolute inset-[7%] overflow-hidden rounded-full">
+                <Image
+                  src="/anomalyer-hero-mercedes.png"
+                  alt="Mercedes sosteniendo una esfera en la portada de AnomalyeR"
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 92vw, 57rem"
+                  className="scale-[1.34] object-contain object-[50%_64%]"
+                />
+              </div>
+              <Link
+                href="/chapters/fragmento-00"
+                className="group absolute inset-x-0 bottom-[3%] z-20 mx-auto flex h-[clamp(4rem,10vw,6.5rem)] w-[min(78vw,31rem)] items-center justify-center overflow-hidden text-center font-heading text-3xl uppercase tracking-[0.08em] text-white outline-none transition-transform duration-300 hover:scale-[1.02] focus-visible:ring-2 focus-visible:ring-white sm:text-4xl"
               >
-                <Link href="/chapters/fragmento-00">
-                  <BookOpenText data-icon="inline-start" />
+                <Image
+                  src="/anomalyer-grunge-ground.webp"
+                  alt=""
+                  fill
+                  sizes="(max-width: 768px) 78vw, 31rem"
+                  className="pointer-events-none object-fill transition-opacity duration-300 group-hover:opacity-92"
+                />
+                <span className="relative z-10 drop-shadow-[0_2px_8px_oklch(0%_0_0/0.85)]">
                   Leer ahora
-                  <ArrowUpRight data-icon="inline-end" />
-                </Link>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="h-12 rounded-none border-primary/30 bg-background/15 px-8 text-foreground backdrop-blur-md hover:bg-primary/10"
-              >
-                <Link href="#obra">Entrar al universo</Link>
-              </Button>
+                </span>
+              </Link>
             </div>
           </Reveal>
         </div>
@@ -563,10 +587,13 @@ export function SketchOneProposal() {
               capítulos de una obra independiente en crecimiento.
             </p>
           </div>
-          <span className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-primary">
-            <CircleDot aria-hidden="true" size={14} />
-            Manga independiente
-          </span>
+          <div className="flex flex-col gap-3 sm:items-end">
+            <span className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-primary">
+              <CircleDot aria-hidden="true" size={14} />
+              Manga independiente
+            </span>
+            <VisitorCounter />
+          </div>
         </div>
       </footer>
     </div>

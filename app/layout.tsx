@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { Analytics } from "@vercel/analytics/next"
 import { Cormorant_Garamond, Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
 
@@ -18,21 +19,72 @@ const cormorant = Cormorant_Garamond({
   weight: ["500", "600", "700"],
 })
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://anomalyer.vercel.app"
+const siteDescription =
+  "Acompaña a Pierre y Mercedes en AnomalyeR, una historia independiente de drama, existencialismo y ciencia ficción anómala a través de Terra-3."
+
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://anomalyer.vercel.app"
-  ),
+  metadataBase: new URL(siteUrl),
+  applicationName: "AnomalyeR",
   title: {
     default: "AnomalyeR | Manga independiente",
     template: "%s | AnomalyeR",
   },
-  description:
-    "Web oficial de AnomalyeR, un manga independiente con una experiencia editorial oscura, íntima y atmosférica.",
+  description: siteDescription,
+  keywords: [
+    "AnomalyeR",
+    "manga independiente",
+    "Pierre Dessendre",
+    "Mercedes Rhiannon",
+    "Terra-3",
+    "ciencia ficcion anomalía",
+    "manga grunge",
+    "drama existencialista",
+  ],
+  authors: [
+    {
+      name: "Paintress Anomalyer",
+      url: "https://www.instagram.com/paintress.anomalyer/",
+    },
+  ],
+  creator: "Paintress Anomalyer",
+  publisher: "Paintress Anomalyer",
+  category: "manga",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: "AnomalyeR",
-    description:
-      "Manga independiente, noticias de autor, progreso de obra y futuros capítulos web.",
+    title: "AnomalyeR | Manga independiente",
+    description: siteDescription,
+    url: "/",
+    siteName: "AnomalyeR",
+    locale: "es_PE",
+    type: "website",
+    images: [
+      {
+        url: "/anomalyer-cover.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Portada de AnomalyeR",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "AnomalyeR | Manga independiente",
+    description: siteDescription,
     images: ["/anomalyer-cover.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
 }
 
@@ -49,6 +101,7 @@ export default function RootLayout({
     >
       <body className="min-h-full bg-background font-sans text-foreground">
         {children}
+        <Analytics />
       </body>
     </html>
   )

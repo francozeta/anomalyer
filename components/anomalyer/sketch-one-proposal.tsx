@@ -398,8 +398,8 @@ export function SketchOneProposal() {
             className="absolute inset-0"
             width="100%"
             height="100%"
-            colors={["#050505", "#fff8df", "#0a0907", "#f3d99a", "#ffffff"]}
-            proportion={0.34}
+            colors={["#050505", "#f1f1ed", "#0b0b0b", "#cfcfca", "#ffffff"]}
+            proportion={0.3}
             softness={0.02}
             distortion={0.92}
             swirl={1}
@@ -417,8 +417,8 @@ export function SketchOneProposal() {
             className="absolute inset-0 opacity-90 mix-blend-screen"
             width="100%"
             height="100%"
-            colors={["#000000", "#fff6d8", "#1a1308", "#ffffff"]}
-            proportion={0.14}
+            colors={["#000000", "#f5f5f1", "#111111", "#ffffff"]}
+            proportion={0.12}
             softness={0}
             distortion={0.96}
             swirl={0.86}
@@ -433,22 +433,20 @@ export function SketchOneProposal() {
             style={{ height: "100%", width: "100%" }}
           />
         </div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_48%,oklch(97%_0.035_92/0.42)_0_30%,transparent_48%,oklch(0%_0_0/0.48)_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_52%,transparent_0_38%,oklch(0%_0_0/0.28)_74%,oklch(0%_0_0/0.62)_100%)]" />
 
         <div className="relative z-10 mx-auto flex min-h-[calc(100svh-56px)] w-full max-w-7xl items-center justify-center px-5 sm:px-8">
           <Reveal className="relative flex w-full justify-center">
             <h1 className="sr-only">AnomalyeR</h1>
-            <div className="relative aspect-square w-[min(92vw,72svh,57rem)]">
-              <div className="absolute inset-[-1%] rounded-full bg-white/45 blur-2xl" />
-              <div className="absolute inset-[2.5%] rounded-full bg-[radial-gradient(circle_at_50%_45%,oklch(100%_0_0)_0%,oklch(96%_0.02_92)_58%,oklch(83%_0.035_88)_100%)] shadow-[0_0_42px_oklch(100%_0_0/0.95),0_0_118px_oklch(91%_0.05_92/0.62),0_0_220px_oklch(0%_0_0/0.72)]" />
-              <div className="absolute inset-[7%] overflow-hidden rounded-full">
+            <div className="relative aspect-square w-[min(108vw,86svh,64rem)]">
+              <div className="absolute inset-[1%]">
                 <Image
                   src="/anomalyer-hero-mercedes.png"
                   alt="Mercedes sosteniendo una esfera en la portada de AnomalyeR"
                   fill
                   priority
-                  sizes="(max-width: 768px) 92vw, 57rem"
-                  className="scale-[1.34] object-contain object-[50%_64%]"
+                  sizes="(max-width: 768px) 108vw, 64rem"
+                  className="scale-[1.72] object-contain object-[50%_61%] contrast-110 drop-shadow-[0_24px_42px_oklch(0%_0_0/0.82)]"
                 />
               </div>
               <Link

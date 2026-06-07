@@ -72,17 +72,25 @@ const protagonists = [
     text: "Su presencia balancea la portada: una figura más quieta, de lectura lateral y pasado incierto.",
     image: "/anomalyer-pierre-line.png",
     imagePosition: "object-center",
-    imageNudge: "md:translate-x-10 lg:translate-x-14",
   },
   {
     name: "Mercedes",
     role: "Observa la anomalía antes de entenderla.",
     text: "La ficha puede revelar biografía, conflicto o frase clave al pasar el mouse, sin perder la tensión editorial.",
-    image: "/anomalyer-mercedes-line.png",
+    image: "/anomalyer-mercedes-line-native.png",
     imagePosition: "object-center",
-    imageNudge: "md:-translate-x-10 lg:-translate-x-14",
   },
 ]
+
+const pierreDialog = {
+  text: "—Y volví aquí, tras mi mísera odisea, confiado por el poder que tengo hoy en mis manos, a destruir esta metrópolis.",
+  author: "Pierre Dessendre",
+}
+
+const mercedesDialog = {
+  text: "—Entre nosotros no hubo ninguna palabra. Pero para mí, era como si nos hubiéramos dicho todo. Esta odisea... la haríamos juntos, desde este principio hasta su final... seremos compañía, el uno para el otro.",
+  author: "Pensaba, para sí, Mercedes",
+}
 
 function Reveal({
   children,
@@ -249,53 +257,134 @@ function WorldCard({
   )
 }
 
-function ProtagonistCard({
-  name,
-  role,
-  text,
-  image,
-  imagePosition,
-  imageNudge,
-  delay,
-}: {
-  name: string
-  role: string
-  text: string
-  image: string
-  imagePosition: string
-  imageNudge: string
-  delay: number
-}) {
+function ProtagonistsComposition() {
+  const [pierre, mercedes] = protagonists
+
   return (
-    <Reveal delay={delay}>
-      <article
-        tabIndex={0}
-        className="group relative min-h-[620px] overflow-hidden outline-none sm:min-h-[700px] lg:min-h-[760px]"
-      >
-        <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+    <div className="protagonists-composition relative grid min-h-[620px] gap-8 overflow-visible lg:min-h-[720px] lg:grid-cols-[minmax(0,0.98fr)_minmax(320px,0.72fr)] lg:items-center">
+      <div className="relative min-h-[560px] overflow-visible lg:min-h-[720px]">
+        <h2 className="relative z-20 w-fit border-b border-primary/30 pr-10 font-heading text-5xl leading-none sm:text-6xl">
+          Protagonistas
+        </h2>
+
+        <div
+          className="pierre-trigger group/pierre absolute bottom-0 left-[8%] h-[88%] w-[min(58vw,430px)] cursor-pointer outline-none"
+          tabIndex={0}
+        >
           <Image
-            src={image}
-            alt={`Retrato de ${name}`}
+            src={pierre.image}
+            alt={`Retrato de ${pierre.name}`}
             fill
-            sizes="(max-width: 768px) 92vw, 50vw"
-            className={`pointer-events-none ${imagePosition} ${imageNudge} scale-[1.08] object-contain transition-transform duration-500 ease-out group-hover:scale-[1.105] group-focus:scale-[1.105]`}
+            sizes="(max-width: 768px) 58vw, 430px"
+            className={`${pierre.imagePosition} pointer-events-none z-20 object-contain object-bottom transition-transform duration-500 ease-out group-hover/pierre:-translate-y-1 group-focus/pierre:-translate-y-1`}
           />
         </div>
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[48%] bg-[linear-gradient(180deg,transparent,oklch(0%_0_0/0.72)_62%,oklch(0%_0_0/0.94)_100%)] transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 md:group-focus:opacity-100" />
-        <div className="absolute inset-x-0 bottom-0 p-6 transition duration-300 sm:p-8 md:translate-y-5 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 md:group-focus:translate-y-0 md:group-focus:opacity-100 lg:p-10">
-          <p className="mb-3 text-xs uppercase tracking-[0.18em] text-primary">
-            Protagonista
+        {/* Distancia entre espaldas: baja este left para acercarlas, subelo para separarlas. */}
+        <div
+          className="mercedes-trigger group/mercedes absolute bottom-0 left-[40%] h-[88%] w-[min(58vw,430px)] cursor-pointer outline-none"
+          tabIndex={0}
+        >
+          <Image
+            src={mercedes.image}
+            alt={`Retrato de ${mercedes.name}`}
+            fill
+            sizes="(max-width: 768px) 58vw, 430px"
+            className={`${mercedes.imagePosition} pointer-events-none z-20 object-contain object-bottom transition-transform duration-500 ease-out group-hover/mercedes:-translate-y-1 group-focus/mercedes:-translate-y-1`}
+          />
+        </div>
+        {/* editar bottom */}
+        <div className="pointer-events-none absolute bottom-[-60px] left-1/2 z-40 h-48 w-[104%] -translate-x-1/2">
+          <Image
+            src="/anomalyer-grunge-ground.webp"
+            alt=""
+            fill
+            sizes="(max-width: 768px) 104vw, 720px"
+            className="object-fill"
+          />
+        </div>
+      </div>
+
+      <article className="protagonists-copy relative z-20 min-h-[360px] max-w-xl pb-10 lg:pb-0">
+        <div className="copy-layer copy-overview">
+          <p className="mb-4 text-xs uppercase tracking-[0.24em] text-primary">
+            Relación
           </p>
           <h3 className="font-heading text-5xl leading-none sm:text-6xl">
-            {name}
+            Dos fugitivos en el continente{" "}
+            <em className="italic">anómalo</em>
           </h3>
-          <div className="mt-5 grid max-w-md gap-4">
-            <p className="text-base leading-7 text-foreground/86">{role}</p>
-            <p className="text-sm leading-7 text-muted-foreground">{text}</p>
-          </div>
+          <p className="mt-6 text-base leading-8 text-foreground/86">
+            Con una recompensa puesta sobre sus cabezas, Pierre y Mercedes
+            avanzan por un continente donde la realidad se quiebra y cada paso
+            corrompe algo de quienes se atreven a cruzarlo.
+          </p>
+          <p className="mt-4 text-sm leading-7 text-muted-foreground">
+            Su viaje hacia El Museo revela heridas, decisiones y fragmentos de
+            un pasado que todavía los persigue. No son solo compañeros de ruta:
+            son dos jóvenes marginados intentando descubrir si pueden
+            pertenecerse a sí mismos antes de perderse en Terra-3.
+          </p>
+        </div>
+        <div className="copy-layer copy-dialog copy-pierre absolute inset-0">
+          <p className="mb-4 text-xs uppercase tracking-[0.24em] text-primary">
+            Pierre Dessendre
+          </p>
+          <blockquote className="font-heading text-3xl leading-tight text-foreground sm:text-4xl">
+            {pierreDialog.text}
+          </blockquote>
+          <p className="mt-5 text-sm uppercase tracking-[0.22em] text-primary/82">
+            {pierreDialog.author}
+          </p>
+        </div>
+        <div className="copy-layer copy-dialog copy-mercedes absolute inset-0">
+          <p className="mb-4 text-xs uppercase tracking-[0.24em] text-primary">
+            Mercedes
+          </p>
+          <blockquote className="font-heading text-3xl leading-tight text-foreground sm:text-4xl">
+            {mercedesDialog.text}
+          </blockquote>
+          <p className="mt-5 text-sm uppercase tracking-[0.22em] text-primary/82">
+            {mercedesDialog.author}
+          </p>
         </div>
       </article>
-    </Reveal>
+      <style>{`
+        .protagonists-composition .copy-layer {
+          transition:
+            opacity 280ms ease,
+            filter 280ms ease,
+            transform 280ms ease;
+        }
+
+        .protagonists-composition .copy-dialog {
+          filter: blur(10px);
+          opacity: 0;
+          pointer-events: none;
+          transform: translateY(8px);
+        }
+
+        .protagonists-composition:has(.pierre-trigger:is(:hover, :focus)) .copy-overview,
+        .protagonists-composition:has(.mercedes-trigger:is(:hover, :focus)) .copy-overview {
+          filter: blur(10px);
+          opacity: 0;
+          transform: translateY(-6px);
+        }
+
+        .protagonists-composition:has(.pierre-trigger:is(:hover, :focus)) .copy-pierre,
+        .protagonists-composition:has(.mercedes-trigger:is(:hover, :focus)) .copy-mercedes {
+          filter: blur(0);
+          opacity: 1;
+          pointer-events: auto;
+          transform: translateY(0);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .protagonists-composition .copy-layer {
+            transition-duration: 0ms;
+          }
+        }
+      `}</style>
+    </div>
   )
 }
 
@@ -459,31 +548,9 @@ export function SketchOneProposal() {
         className="relative border-b border-primary/18 py-16 sm:py-24"
       >
         <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
-          <Reveal>
-            <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-              <h2 className="font-heading text-6xl leading-none sm:text-7xl">
-                Protagonistas
-              </h2>
-              <p className="max-w-sm text-sm leading-7 text-muted-foreground">
-                Los retratos pueden crecer como fichas completas cuando el
-                autor defina biografías, capítulos y arte final.
-              </p>
-            </div>
+          <Reveal delay={0.08}>
+            <ProtagonistsComposition />
           </Reveal>
-          <div className="grid gap-4 md:grid-cols-2 md:gap-0">
-            {protagonists.map((character, index) => (
-              <ProtagonistCard
-                key={character.name}
-                name={character.name}
-                role={character.role}
-                text={character.text}
-                image={character.image}
-                imagePosition={character.imagePosition}
-                imageNudge={character.imageNudge}
-                delay={index * 0.08}
-              />
-            ))}
-          </div>
         </div>
       </section>
 

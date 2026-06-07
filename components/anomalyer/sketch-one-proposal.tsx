@@ -228,24 +228,23 @@ function ProtagonistCard({
         className="group relative min-h-[620px] overflow-hidden outline-none sm:min-h-[700px] lg:min-h-[760px]"
       >
         <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-          <div className="pointer-events-none absolute inset-8 bg-[radial-gradient(ellipse_at_50%_50%,oklch(86.8%_0.066_78/0.82),oklch(86.8%_0.066_78/0.26)_46%,transparent_74%)] opacity-0 blur-sm transition duration-500 group-hover:opacity-100 group-focus:opacity-100" />
           <Image
             src={image}
             alt={`Retrato de ${name}`}
             fill
             sizes="(max-width: 768px) 92vw, 50vw"
-            className={`protagonist-ink pointer-events-none grayscale invert ${imagePosition} ${imageNudge} scale-[1.08] object-contain opacity-[0.88] transition duration-700 group-hover:scale-[1.13] group-hover:opacity-100 group-hover:invert-0 group-hover:mix-blend-multiply group-focus:scale-[1.13] group-focus:opacity-100 group-focus:invert-0 group-focus:mix-blend-multiply`}
+            className={`pointer-events-none ${imagePosition} ${imageNudge} scale-[1.08] object-contain transition-transform duration-500 ease-out group-hover:scale-[1.105] group-focus:scale-[1.105]`}
           />
         </div>
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_34%,transparent_0%,oklch(0%_0_0/0.34)_58%,oklch(0%_0_0/0.82)_100%)] opacity-0 transition duration-300 group-hover:opacity-100 group-focus:opacity-100" />
-        <div className="absolute inset-x-0 bottom-0 p-6 opacity-100 transition duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-focus:translate-y-0 group-focus:opacity-100 sm:p-8 md:translate-y-6 md:opacity-0 lg:p-10">
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[48%] bg-[linear-gradient(180deg,transparent,oklch(0%_0_0/0.72)_62%,oklch(0%_0_0/0.94)_100%)] transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 md:group-focus:opacity-100" />
+        <div className="absolute inset-x-0 bottom-0 p-6 transition duration-300 sm:p-8 md:translate-y-5 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 md:group-focus:translate-y-0 md:group-focus:opacity-100 lg:p-10">
           <p className="mb-3 text-xs uppercase tracking-[0.18em] text-primary">
             Protagonista
           </p>
           <h3 className="font-heading text-5xl leading-none sm:text-6xl">
             {name}
           </h3>
-          <div className="mt-5 grid max-w-md gap-4 transition duration-300 md:translate-y-5 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 md:group-focus:translate-y-0 md:group-focus:opacity-100">
+          <div className="mt-5 grid max-w-md gap-4">
             <p className="text-base leading-7 text-foreground/86">{role}</p>
             <p className="text-sm leading-7 text-muted-foreground">{text}</p>
           </div>

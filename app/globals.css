@@ -174,4 +174,19 @@
       linear-gradient(135deg, oklch(86.8% 0.066 78 / 8%) 0 1px, transparent 1px 12px),
       oklch(0% 0 0 / 32%);
   }
+
+  .protagonist-ink {
+    -webkit-mask-image: radial-gradient(
+      ellipse 78% 92% at 50% 50%,
+      black 56%,
+      rgb(0 0 0 / 72%) 76%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      ellipse 78% 92% at 50% 50%,
+      black 56%,
+      rgb(0 0 0 / 72%) 76%,
+      transparent 100%
+    );
+  }
 }
